@@ -31,7 +31,7 @@ export default function Navbar() {
         {user && (
           <div className="nav-links">
             <Link to="/home" className="nav-link">
-              <span className="nav-icon">🏠</span>
+              <span className="nav-icon"></span>
               Home
             </Link>
             <Link to="/prediction" className="nav-link">
@@ -42,11 +42,20 @@ export default function Navbar() {
               <span className="nav-icon">👥</span>
               Community
             </Link>
+            {user.role === 'admin' && (
+              <Link to="/admin" className="nav-link admin">
+                <span className="nav-icon">👨💼</span>
+                Admin
+              </Link>
+            )}
           </div>
         )}
 
         {/* User Actions */}
         <div className="nav-actions">
+          <Link to="/" className="btn btn--home">
+            🏠 Home
+          </Link>
           {user ? (
             <div className="user-menu">
               <motion.button 
@@ -58,7 +67,10 @@ export default function Navbar() {
                 {user.name}
               </motion.button>
               <div className="user-dropdown">
-                <button className="dropdown-item" onClick={logout}>
+                <button className="dropdown-item logout-btn" onClick={() => {
+                  logout();
+                  navigate('/login');
+                }}>
                   <span className="dropdown-icon">🚪</span>
                   Logout
                 </button>
@@ -70,11 +82,11 @@ export default function Navbar() {
                 Login
               </Link>
               <Link to="/signup" className="btn btn--nav-primary">
-                Get Started
+                Sign Up
               </Link>
-              <Link to="/dashboard" className="btn btn--nav-primary">
+              {/* <Link to="/dashboard" className="btn btn--nav-primary">
                 Dashboard
-              </Link>
+              </Link> */}
             </div>
           )}
         </div>

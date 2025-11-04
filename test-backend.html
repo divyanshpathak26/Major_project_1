@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Test</title>
+</head>
+<body>
+    <h1>Backend Connection Test</h1>
+    <button onclick="testConnection()">Test Backend Connection</button>
+    <button onclick="testRegister()">Test Register API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testConnection() {
+            try {
+                const response = await fetch('http://localhost:5001/api/test');
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <h3>✅ Backend Connection: SUCCESS</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <h3>❌ Backend Connection: FAILED</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Make sure backend is running on port 5001</p>
+                `;
+            }
+        }
+
+        async function testRegister() {
+            try {
+                const testData = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    password: 'test123',
+                    location: 'Test City',
+                    phone: '1234567890'
+                };
+
+                const response = await fetch('http://localhost:5001/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <h3>Register API Test</h3>
+                    <p>Status: ${response.status}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <h3>❌ Register API: FAILED</h3>
+                    <p>Error: ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

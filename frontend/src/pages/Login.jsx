@@ -9,6 +9,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,11 +21,16 @@ export default function Login() {
     setLoading(true);
     setErr('');
     
-    // Simple redirect without authentication
-    setTimeout(() => {
-      navigate('/dashboard', { replace: true });
+    try {
+      console.log('Attempting login with:', { email: form.email });
+      await login(form);
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error('Login failed:', error);
+      setErr(error.message || 'Login failed. Please try again.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -76,7 +82,6 @@ export default function Login() {
             <div className="form-group">
               <label className="form-label">Email Address</label>
               <div className="input-wrapper">
-
                 <input 
                   className="form-input"
                   placeholder="Enter your email" 
@@ -90,16 +95,22 @@ export default function Login() {
 
             <div className="form-group">
               <label className="form-label">Password</label>
-              <div className="input-wrapper">
-
+              <div className="input-wrapper password-wrapper">
                 <input 
                   className="form-input"
                   placeholder="Enter your password" 
-                  type="password" 
+                  type={showPassword ? 'text' : 'password'} 
                   value={form.password} 
                   onChange={(e)=>setForm({...form,password:e.target.value})}
                   required
                 />
+                <button 
+                  type="button" 
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? '👁️' : '👁️🗨️'}
+                </button>
               </div>
             </div>
 
@@ -117,7 +128,6 @@ export default function Login() {
                 </>
               ) : (
                 <>
-                
                   Sign In
                 </>
               )}

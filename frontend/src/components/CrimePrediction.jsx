@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import './CrimePrediction.css';
+import '../css/CrimePrediction.css';
 
 export default function CrimePrediction() {
   const [formData, setFormData] = useState({

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import './CrimeGraphs.css';
+import '../css/CrimeGraphs.css';
 
 export default function CrimeGraphs() {
   const [activeTab, setActiveTab] = useState('trends');

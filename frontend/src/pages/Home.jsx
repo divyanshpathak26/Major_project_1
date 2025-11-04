@@ -47,7 +47,7 @@ const Home = () => {
               </motion.div>
               
               <h1 className="hero-title">
-                Next-Gen <span className="text-gradient">Crime Prevention</span>
+                Next-Gen <span className="text-gradient">Crime Prediction</span>
               </h1>
               
               <p className="hero-subtitle">
@@ -74,18 +74,8 @@ const Home = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link to="/prediction" className="btn btn--nav-primary">
-                    
-                    Start Prediction
-                  </Link>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link to="/community" className="btn btn--glass btn--modern">
-                    
-                    Explore Platform
+                  <Link to="/prediction" className="btn btn--hero-primary">
+                    🎯 Start Prediction
                   </Link>
                 </motion.div>
               </div>
@@ -110,7 +100,7 @@ const Home = () => {
           >
             <div className="stats-badge">📊 Live Analytics</div>
             <h3>Real-Time Platform Statistics</h3>
-            <p>Live data from our crime prevention network across the globe</p>
+            <p><strong>Live data from our crime prediction network across the globe</strong></p>
           </motion.div>
           
           <div className="modern-stats-grid">
@@ -148,18 +138,16 @@ const Home = () => {
         transition={{ delay: 0.7, duration: 0.8 }}
       >
         <div className="features-container">
-          <div className="section-header">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-              className="section-badge"
-            >
-              ⚡ Advanced Technology
-            </motion.div>
-            <h2>Powerful Features for Community Safety</h2>
-            <p>Comprehensive AI-driven tools designed to keep you and your community informed and protected</p>
-          </div>
+          <motion.div 
+            className="stats-header"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <div className="stats-badge">⚡ Advanced Technology</div>
+            <h3>Powerful Features for Community Safety</h3>
+            <p><strong>Comprehensive AI-driven tools designed to keep you and your community informed and protected</strong></p>
+          </motion.div>
           
           <div className="features-grid">
             {[
@@ -212,15 +200,9 @@ const Home = () => {
             <p>Join thousands of users who trust CrimeWatch for their safety needs. Start protecting your community today with AI-powered crime prevention.</p>
             <div className="cta-buttons">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link to="/prediction" className="btn btn--nav-primary">
+                <Link to="/prediction" className="btn btn--hero-primary">
                   <span className="btn-icon">🎯</span>
                   Get Started Now
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link to="/community" className="btn btn--outline-light btn--cta">
-                  <span className="btn-icon">📖</span>
-                  Learn More
                 </Link>
               </motion.div>
             </div>
@@ -258,4 +240,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;

@@ -16,17 +16,13 @@ export default function Dashboard() {
   ];
 
   const quickActions = [
-    { title: 'Crime Prediction', desc: 'Predict crime risk for any area', action: () => navigate('/prediction'), icon: '🔮' },
-    { title: 'Community Reports', desc: 'View and share safety reports', action: () => navigate('/community'), icon: '👥' },
-    { title: 'Safety Tips', desc: 'Get personalized safety advice', action: () => {}, icon: '🛡️' },
-    { title: 'Emergency Contacts', desc: 'Quick access to help', action: () => {}, icon: '🚨' }
+    { title: 'Crime Prediction', desc: 'Predict crime risk for any area', action: () => { console.log('Navigating to prediction'); navigate('/prediction'); }, icon: '🔮' },
+    { title: 'Community Reports', desc: 'View and share safety reports', action: () => { console.log('Navigating to community'); navigate('/community'); }, icon: '👥' },
+    { title: 'Safety Analytics', desc: 'View crime trends and statistics', action: () => { console.log('Navigating to safety-analytics'); navigate('/safety-analytics'); }, icon: '📊' },
+    { title: 'Emergency Contacts', desc: 'Quick access to emergency services', action: () => { console.log('Navigating to emergency-contacts'); navigate('/emergency-contacts'); }, icon: '🆘' }
   ];
 
-  const recentActivity = [
-    { type: 'prediction', desc: 'Crime risk predicted for Delhi Central', time: '2 hours ago' },
-    { type: 'report', desc: 'Safety report submitted for Connaught Place', time: '5 hours ago' },
-    { type: 'alert', desc: 'High crime alert issued for Karol Bagh', time: '1 day ago' }
-  ];
+
 
   return (
     <div className="dashboard">
@@ -57,45 +53,37 @@ export default function Dashboard() {
         ))}
       </motion.div>
 
-      <div className="dashboard-content">
-        <motion.div 
-          className="quick-actions"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          <h2>Quick Actions</h2>
-          <div className="actions-grid">
-            {quickActions.map((action, i) => (
-              <div key={i} className="action-card" onClick={action.action}>
+      <motion.div 
+        className="quick-actions"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        <h2>Quick Actions</h2>
+        <div className="actions-grid">
+          {quickActions.map((action, i) => (
+            <motion.div 
+              key={i} 
+              className="action-card" 
+              onClick={action.action}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.1, duration: 0.6 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="action-icon-wrapper">
                 <span className="action-icon">{action.icon}</span>
+              </div>
+              <div className="action-content">
                 <h3>{action.title}</h3>
                 <p>{action.desc}</p>
               </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="recent-activity"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-        >
-          <h2>Recent Activity</h2>
-          <div className="activity-list">
-            {recentActivity.map((activity, i) => (
-              <div key={i} className="activity-item">
-                <div className={`activity-type ${activity.type}`}></div>
-                <div className="activity-content">
-                  <p>{activity.desc}</p>
-                  <span>{activity.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+              <div className="action-arrow">→</div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }

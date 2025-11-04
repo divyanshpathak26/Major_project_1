@@ -11,20 +11,15 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
-<<<<<<< HEAD
+    "bootstrap": "^5.3.8",
     "chart.js": "^4.5.0",
     "framer-motion": "^12.23.12",
     "react": "^19.1.1",
+    "react-bootstrap": "^2.10.10",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.8.2"
-=======
-    "bootstrap": "^5.3.8",
-    "react": "^19.1.1",
-    "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.1.1",
-    "react-icons": "^5.5.0"
->>>>>>> da86686a326e637466b04a6bb395d496395a456a
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

@@ -9,7 +9,6 @@ export default function Signup() {
   const [form, setForm] = useState({ 
     firstName: '', 
     lastName: '', 
-    username: '', 
     email: '', 
     phone: '', 
     address: '', 
@@ -21,35 +20,67 @@ export default function Signup() {
   });
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const requiredFields = ['firstName', 'lastName', 'username', 'email', 'phone', 'address', 'city', 'state', 'zipCode', 'password'];
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'password'];
     const missingFields = requiredFields.filter(field => !form[field]);
-    if (missingFields.length > 0) return setErr('All fields are required');
+    if (missingFields.length > 0) return setErr('Name, email, phone and password are required');
     if (form.password !== form.confirm) return setErr('Passwords do not match');
     if (form.password.length < 6) return setErr('Password must be at least 6 characters');
     
     setLoading(true);
     setErr('');
+    
     try {
       const userData = {
-        name: `${form.firstName} ${form.lastName}`,
-        username: form.username,
+        name: `${form.firstName} ${form.lastName}`.trim(),
         email: form.email,
-        phone: form.phone,
-        address: form.address,
-        city: form.city,
-        state: form.state,
-        zipCode: form.zipCode,
-        password: form.password
+        password: form.password,
+        location: `${form.city}, ${form.state}`.replace(', ,', '').trim() || 'Not specified',
+        phone: form.phone
       };
-      await signup(userData);
-      navigate('/home', { replace: true });
+      
+      console.log('🚀 Attempting signup with:', userData);
+      
+      // Test connection first
+      console.log('🔍 Testing connection to backend...');
+      const testResponse = await fetch('http://localhost:5001/api/test');
+      console.log('✅ Connection test successful');
+      
+      // Direct API call to register
+      console.log('📤 Sending registration request...');
+      const response = await fetch('http://localhost:5001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+      
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response headers:', response.headers);
+      
+      const data = await response.json();
+      console.log('📦 Response data:', data);
+      
+      if (!response.ok) {
+        throw new Error(data.msg || 'Registration failed');
+      }
+      
+      alert('Account created successfully! Please login.');
+      navigate('/login', { replace: true });
     } catch (error) {
-      setErr('Failed to create account');
+      console.error('❌ Signup error:', error);
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        setErr('Cannot connect to server. Please check if backend is running on port 5001.');
+      } else {
+        setErr(error.message || 'Failed to create account');
+      }
     } finally {
       setLoading(false);
     }
@@ -124,16 +155,7 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Username</label>
-                  <input 
-                    className="form-input"
-                    placeholder="Choose a username" 
-                    value={form.username} 
-                    onChange={(e)=>setForm({...form,username:e.target.value})}
-                    required
-                  />
-                </div>
+
               </div>
 
               <div className="form-column">
@@ -168,10 +190,9 @@ export default function Signup() {
                   <label className="form-label">Street Address</label>
                   <input 
                     className="form-input"
-                    placeholder="123 Main Street" 
+                    placeholder="123 Main Street (Optional)" 
                     value={form.address} 
                     onChange={(e)=>setForm({...form,address:e.target.value})}
-                    required
                   />
                 </div>
                 <div className="form-row">
@@ -179,20 +200,18 @@ export default function Signup() {
                     <label className="form-label">City</label>
                     <input 
                       className="form-input"
-                      placeholder="City" 
+                      placeholder="City (Optional)" 
                       value={form.city} 
                       onChange={(e)=>setForm({...form,city:e.target.value})}
-                      required
                     />
                   </div>
                   <div className="form-group">
                     <label className="form-label">State</label>
                     <input 
                       className="form-input"
-                      placeholder="State" 
+                      placeholder="State (Optional)" 
                       value={form.state} 
                       onChange={(e)=>setForm({...form,state:e.target.value})}
-                      required
                     />
                   </div>
                 </div>
@@ -200,10 +219,9 @@ export default function Signup() {
                   <label className="form-label">ZIP Code</label>
                   <input 
                     className="form-input"
-                    placeholder="12345" 
+                    placeholder="12345 (Optional)" 
                     value={form.zipCode} 
                     onChange={(e)=>setForm({...form,zipCode:e.target.value})}
-                    required
                   />
                 </div>
               </div>
@@ -214,26 +232,44 @@ export default function Signup() {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Password</label>
-                  <input 
-                    className="form-input"
-                    placeholder="Password" 
-                    type="password" 
-                    value={form.password} 
-                    onChange={(e)=>setForm({...form,password:e.target.value})}
-                    required
-                    minLength={6}
-                  />
+                  <div className="input-wrapper password-wrapper">
+                    <input 
+                      className="form-input"
+                      placeholder="Password (min 6 characters)" 
+                      type={showPassword ? 'text' : 'password'} 
+                      value={form.password} 
+                      onChange={(e)=>setForm({...form,password:e.target.value})}
+                      required
+                      minLength={6}
+                    />
+                    <button 
+                      type="button" 
+                      className="password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? '👁️' : '👁️🗨️'}
+                    </button>
+                  </div>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Confirm Password</label>
-                  <input 
-                    className="form-input"
-                    placeholder="Confirm password" 
-                    type="password" 
-                    value={form.confirm} 
-                    onChange={(e)=>setForm({...form,confirm:e.target.value})}
-                    required
-                  />
+                  <div className="input-wrapper password-wrapper">
+                    <input 
+                      className="form-input"
+                      placeholder="Confirm password" 
+                      type={showConfirm ? 'text' : 'password'} 
+                      value={form.confirm} 
+                      onChange={(e)=>setForm({...form,confirm:e.target.value})}
+                      required
+                    />
+                    <button 
+                      type="button" 
+                      className="password-toggle"
+                      onClick={() => setShowConfirm(!showConfirm)}
+                    >
+                      {showConfirm ? '👁️' : '👁️🗨️'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -248,10 +284,12 @@ export default function Signup() {
               {loading ? (
                 <>
                   <span className="loading-spinner"></span>
-                  Creating account...
+                  Creating Account...
                 </>
               ) : (
-                "Create Account"
+                <>
+                  Create Account
+                </>
               )}
             </motion.button>
           </motion.form>
@@ -271,4 +309,4 @@ export default function Signup() {
       </motion.div>
     </div>
   );
-}
+}            

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import CrimePrediction from '../components/CrimePrediction';
+import CrimePrediction from '../components/CrimePrediction.jsx';
 import CrimeGraphs from '../components/CrimeGraphs';
-import './Prediction.css';
+import '../css/Prediction.css';
 
 export default function Prediction() {
   return (
