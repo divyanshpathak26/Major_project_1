@@ -167,6 +167,16 @@
   text-decoration: none;
 }
 
+.btn--logout {
+  background: linear-gradient(135deg, #f87171, #ef4444) !important;
+  box-shadow: 0 4px 15px rgba(248, 113, 113, 0.3) !important;
+}
+
+.btn--logout:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  box-shadow: 0 8px 25px rgba(248, 113, 113, 0.4) !important;
+}
+
 .btn--nav-primary {
   background: linear-gradient(135deg, #00d4aa, #01a3a4);
   color: white;

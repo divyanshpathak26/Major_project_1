@@ -27,55 +27,25 @@ export default function Navbar() {
           <span className="brand-text">CrimeWatch</span>
         </motion.div>
 
-        {/* Navigation Links */}
-        {user && (
-          <div className="nav-links">
-            <Link to="/home" className="nav-link">
-              <span className="nav-icon"></span>
-              Home
-            </Link>
-            <Link to="/prediction" className="nav-link">
-              <span className="nav-icon">🎯</span>
-              Prediction
-            </Link>
-            <Link to="/community" className="nav-link">
-              <span className="nav-icon">👥</span>
-              Community
-            </Link>
-            {user.role === 'admin' && (
-              <Link to="/admin" className="nav-link admin">
-                <span className="nav-icon">👨💼</span>
-                Admin
-              </Link>
-            )}
-          </div>
-        )}
+
 
         {/* User Actions */}
         <div className="nav-actions">
           <Link to="/" className="btn btn--home">
-            🏠 Home
+            Home
           </Link>
           {user ? (
-            <div className="user-menu">
-              <motion.button 
-                className="user-button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="user-avatar">👤</span>
-                {user.name}
-              </motion.button>
-              <div className="user-dropdown">
-                <button className="dropdown-item logout-btn" onClick={() => {
-                  logout();
-                  navigate('/login');
-                }}>
-                  <span className="dropdown-icon">🚪</span>
-                  Logout
-                </button>
-              </div>
-            </div>
+            <>
+              <Link to="/dashboard" className="btn btn--home">
+                Dashboard
+              </Link>
+              <button className="btn btn--home btn--logout" onClick={() => {
+                logout();
+                navigate('/login');
+              }}>
+                Logout
+              </button>
+            </>
           ) : (
             <div className="auth-buttons">
               <Link to="/login" className="btn btn--nav-secondary">
@@ -84,9 +54,6 @@ export default function Navbar() {
               <Link to="/signup" className="btn btn--nav-primary">
                 Sign Up
               </Link>
-              {/* <Link to="/dashboard" className="btn btn--nav-primary">
-                Dashboard
-              </Link> */}
             </div>
           )}
         </div>
