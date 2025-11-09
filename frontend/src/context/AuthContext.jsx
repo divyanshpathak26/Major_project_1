@@ -161,6 +161,18 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const getStats = async () => {
+    try {
+      const res = await fetch(`${API_URL}/stats`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.msg);
+      return data;
+    } catch (error) {
+      console.error('Get stats error:', error);
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -172,7 +184,8 @@ export function AuthProvider({ children }) {
       createReport,
       getReports,
       createPrediction,
-      getUserPredictions
+      getUserPredictions,
+      getStats
     }}>
       {children}
     </AuthContext.Provider>

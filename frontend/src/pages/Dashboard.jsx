@@ -6,33 +6,33 @@ import { useState, useEffect } from 'react';
 import '../css/Dashboard.css';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, getStats } = useAuth();
   const navigate = useNavigate();
-  const [totalReports, setTotalReports] = useState(0);
+  const [stats, setStats] = useState({
+    totalReports: '0',
+    activeAlerts: '0',
+    communityMembers: '0',
+    predictionsMade: '0'
+  });
 
   useEffect(() => {
-    const fetchReportsCount = async () => {
+    const fetchStats = async () => {
       try {
-        console.log('Fetching reports from backend...');
-        const response = await fetch('http://localhost:5001/api/reports');
-        console.log('Response status:', response.status);
-        const reports = await response.json();
-        console.log('Fetched reports:', reports);
-        console.log('Total reports count:', reports.length);
-        setTotalReports(reports.length);
+        const data = await getStats();
+        setStats(data);
       } catch (error) {
-        console.error('Error fetching reports:', error);
+        console.error('Error fetching stats:', error);
       }
     };
 
-    fetchReportsCount();
-  }, []);
+    fetchStats();
+  }, [getStats]);
 
-  const stats = [
-    { title: 'Total Reports', value: totalReports.toLocaleString(), change: '+12%', color: 'blue' },
-    { title: 'High Risk Areas', value: '23', change: '-5%', color: 'red' },
-    { title: 'Safe Zones', value: '156', change: '+8%', color: 'green' },
-    { title: 'Active Alerts', value: '7', change: '+2%', color: 'orange' }
+  const dashboardStats = [
+    { title: 'Total Reports', value: stats.totalReports, change: '+12%', color: 'blue' },
+    { title: 'Active Alerts', value: stats.activeAlerts, change: '-5%', color: 'red' },
+    { title: 'Community Members', value: stats.communityMembers, change: '+8%', color: 'green' },
+    { title: 'Predictions Made', value: stats.predictionsMade, change: '+2%', color: 'orange' }
   ];
 
   const quickActions = [
@@ -62,7 +62,7 @@ export default function Dashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
       >
-        {stats.map((stat, i) => (
+        {dashboardStats.map((stat, i) => (
           <div key={i} className={`stat-card ${stat.color}`}>
             <h3>{stat.value}</h3>
             <p>{stat.title}</p>

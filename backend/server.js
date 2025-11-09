@@ -6,6 +6,7 @@ import authRoutes from './auth-routes.js';
 import adminRoutes from './admin-routes.js';
 import reportsRoutes from './reports-routes.js';
 import predictionsRoutes from './predictions-routes.js';
+import statsRoutes from './stats-routes.js';
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/predictions', predictionsRoutes);
+app.use('/api/stats', statsRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/crimedb')

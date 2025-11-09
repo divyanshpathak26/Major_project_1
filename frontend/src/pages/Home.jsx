@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext.jsx";
 import FeatureCard from "../components/FeatureCard.jsx";
 import StatsBar from "../components/StatsBar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -7,12 +9,25 @@ import "../css/Home.css";
 import "../css/Footer.css";
 
 const Home = () => {
-  const stats = {
-    totalReports: "12,847",
-    activeAlerts: "23",
-    communityMembers: "8,456",
-    predictionsMade: "45,231"
-  };
+  const { getStats } = useAuth();
+  const [stats, setStats] = useState({
+    totalReports: "0",
+    activeAlerts: "0",
+    communityMembers: "0",
+    predictionsMade: "0"
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await getStats();
+        setStats(data);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+    fetchStats();
+  }, [getStats]);
 
   return (
     <div className="home-container">
