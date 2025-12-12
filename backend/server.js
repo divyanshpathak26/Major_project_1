@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './auth-routes.js';
-import adminRoutes from './admin-routes.js';
 import reportsRoutes from './reports-routes.js';
 import predictionsRoutes from './predictions-routes.js';
 import statsRoutes from './stats-routes.js';
@@ -52,7 +51,6 @@ app.options('*', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/predictions', predictionsRoutes);
 app.use('/api/stats', statsRoutes);
