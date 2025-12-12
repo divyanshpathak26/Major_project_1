@@ -9,7 +9,6 @@ import Prediction from "./pages/Prediction.jsx";
 import Community from "./pages/Community.jsx";
 import EmergencyContacts from "./pages/EmergencyContacts.jsx";
 import SafetyAnalytics from "./pages/SafetyAnalytics.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -30,7 +29,6 @@ export default function App() {
               <Route path="/community" element={<PageWrapper><Community /></PageWrapper>} />
               <Route path="/emergency-contacts" element={<PageWrapper><EmergencyContacts /></PageWrapper>} />
               <Route path="/safety-analytics" element={<PageWrapper><SafetyAnalytics /></PageWrapper>} />
-              <Route path="/admin" element={<ProtectedRoute><PageWrapper><AdminDashboard /></PageWrapper></ProtectedRoute>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AnimatePresence>

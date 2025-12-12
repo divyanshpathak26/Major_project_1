@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import FeatureCard from "../components/FeatureCard.jsx";
-import StatsBar from "../components/StatsBar.jsx";
 import Footer from "../components/Footer.jsx";
 import "../css/Home.css";
 import "../css/Footer.css";
